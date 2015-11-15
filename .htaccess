@@ -1,0 +1,17 @@
+
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
+# main rewrite
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
+<IfModule mod_rewrite.c>
+RewriteEngine On
+#RewriteBase /blogs/
+# Hide the application and system directories by redirecting the request to index.php
+RewriteRule ^(application|system|\.svn) index.php/$1 [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond $1 !^(index.php|resources|robots.txt|woff|ttf|svg|eot)
+RewriteRule ^(.*)$ index.php/$1 [L,QSA]
+</IfModule>
+<IfModule !mod_rewrite.c>
+ ErrorDocument 404 index.php
+</IfModule>
